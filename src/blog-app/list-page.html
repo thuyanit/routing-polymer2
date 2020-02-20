@@ -1,0 +1,93 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+
+<dom-module id="list-page">
+	<template items="{{postList.posts}}">
+		<style>
+			:host {
+				display: none;
+			}
+			:host([active]) {
+        display: block;
+      }
+			li{
+				list-style: none;
+			}
+			a{
+				text-decoration: none;
+				color: inherit;
+			}
+			.posts{
+				display: flex;
+				max-width: 1000px;
+				margin: 0 auto;
+				justify-content: space-between;
+			}
+			.posts__item{
+				max-width: 300px;
+				/* margin-right: 50px; */
+				box-shadow: 0 0 5px #ccc;
+				width: 30%;
+			}
+			.posts__thumb{
+				height: 200px;
+				overflow: hidden;
+			}
+			.posts__thumb img{
+				width: 100%;
+				position: relative;
+				top: 50%;
+				transform: translate(0, -50%);
+			}
+		</style>
+
+		<iron-ajax auto="" url="[[_computeURL(category)]]" handle-as="json" loading="{{loading}}" last-response="{{postList}}"></iron-ajax>
+
+		<ul class="posts">
+		<template is="dom-repeat" items="{{postList.posts}}">
+				<li class="posts__item">
+					<a href="#/[[category]]/posts/[[item.slug]]">
+					<div class="posts__thumb">
+						<img src="[[item.img]]" alt="[[item.img_alt]]">
+					</div>
+					<h2>[[item.title]]</h2>
+					<p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dolores fugit nemo accusamus possimus doloribus, atque nam architecto similique impedit consequatur blanditiis explicabo error rem, dicta quibusdam quia eaque magnam adipisci!</p>
+					</a>
+				</li>
+		</template>
+		</ul>
+
+	</template>
+
+	<script>/**
+ * @customElement
+ * @polymer
+ */
+class ListPage extends Polymer.Element {
+  static get is() {
+    return 'list-page';
+  }
+
+  static get properties() {
+    return {
+      active: {
+        type: Boolean,
+        value: false,
+        reflectToAttribute: true
+      },
+      loading: {
+        type: Boolean,
+        value: false,
+        notify: true
+      }
+    };
+  }
+
+  _computeURL(category) {
+    return `data/list/${category}.json`;
+  }
+
+}
+
+window.customElements.define(ListPage.is, ListPage);</script>
+</dom-module>

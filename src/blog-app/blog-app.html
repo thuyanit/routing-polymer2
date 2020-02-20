@@ -1,0 +1,90 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/app-route/app-location.html">
+<link rel="import" href="../../bower_components/app-route/app-route.html">
+
+<link rel="import" href="blog-page.html">
+<dom-module id="blog-app">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+      li{
+        list-style: none;
+        display: inline-block;
+      }
+      .header{
+        padding: 20px 0 50px;
+      }
+      nav{
+        text-align: center;
+      }
+      a{
+        display: inline-block;
+        text-decoration: none;
+        margin: 0px 20px;
+        color: inherit;
+      }
+      li + li{
+        border-left: 1px solid #ccc;
+      }
+    </style>
+    <app-location route="{{route}}" use-hash-as-path=""></app-location>
+    <app-route route="{{route}}" pattern="/:category" data="{{categoryData}}" tail="{{categoryTail}}">
+    </app-route>
+    
+    <!-- Header -->
+    <header class="header">
+      <nav>
+        <iron-selector selected="[[categoryData.category]]" attr-for-selected="data-page">
+        <li><a data-page="category1" href="#/category1/list">Category 1</a></li>
+        <li><a data-page="category2" href="#/category2/list">Category 2</a></li>
+        <li><a data-page="category3" href="#/category3/list">Category 3</a></li>
+      </iron-selector>
+      </nav>
+    </header>
+
+    <main class="primary">
+      <blog-page category="{{categoryData.category}}" route="{{categoryTail}}">
+        
+      </blog-page>
+      
+    </main>
+  </template>
+
+  <script>/**
+ * @customElement
+ * @polymer
+ */
+class BlogApp extends Polymer.Element {
+  static get is() {
+    return 'blog-app';
+  }
+
+  static get properties() {
+    return {
+      prop1: {
+        type: String,
+        value: 'blog-app'
+      }
+    };
+  }
+
+  static get observers() {
+    return ['_updateScroll(route)'];
+  }
+
+  attached() {
+    if (!this.route.path) {
+      this.set('route.path', '/category1/list');
+    }
+  }
+
+  _updateScroll() {
+    window.scroll(0, 0);
+  }
+
+}
+
+window.customElements.define(BlogApp.is, BlogApp);</script>
+</dom-module>

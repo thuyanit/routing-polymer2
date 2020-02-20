@@ -1,0 +1,58 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+
+<dom-module id="post-page">
+  <template>
+    <style>
+      :host {
+        display: none;
+      }
+
+      :host([active]) {
+        display: block;
+      }
+      .post{
+        max-width: 1000px;
+        margin: 0 auto;
+      }
+    </style>
+    <iron-ajax auto="" url="[[_computeURL(post)]]" handle-as="json" loading="{{loading}}" last-response="{{postContent}}"></iron-ajax>
+    
+    <div class="post">
+      <h2>[[postContent.title]]</h2>
+      <img src="[[postContent.img]]" alt="[[postContent.img_alt]]">
+    </div>
+  </template>
+
+  <script>/**
+ * @customElement
+ * @polymer
+ */
+class PostPage extends Polymer.Element {
+  static get is() {
+    return 'post-page';
+  }
+
+  static get properties() {
+    return {
+      active: {
+        type: Boolean,
+        value: false,
+        reflectToAttribute: true
+      },
+      loading: {
+        type: Boolean,
+        value: false,
+        notify: true
+      }
+    };
+  }
+
+  _computeURL(post) {
+    return `data/posts/${post}.json`;
+  }
+
+}
+
+window.customElements.define(PostPage.is, PostPage);</script>
+</dom-module>

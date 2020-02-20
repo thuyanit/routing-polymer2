@@ -1,0 +1,76 @@
+<link rel="import" href="../../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../../bower_components/app-route/app-route.html">
+<link rel="import" href="../../bower_components/paper-spinner/paper-spinner.html">
+<link rel="import" href="list-page.html">
+<link rel="import" href="post-page.html">
+
+<dom-module id="blog-page">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+      .overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+    </style>
+    
+    <app-route route="{{route}}" pattern="/list" active="{{listActive}}"></app-route>
+
+    <app-route route="{{route}}" pattern="/posts/:slug" data="{{postsData}}" active="{{postsActive}}"></app-route>
+
+    <list-page category="{{category}}" active="{{listActive}}"></list-page>
+
+    <post-page post="{{postsData.slug}}" active="{{postsActive}}"></post-page>
+    
+    <div class="overlay" hidden$="[[!isLoading]]">
+      <paper-spinner active="[[isLoading]]">
+
+      </paper-spinner>
+    </div>
+    
+    <template>
+
+    </template>
+  </template>
+
+  <script>/**
+ * @customElement
+ * @polymer
+ */
+class BlogPage extends Polymer.Element {
+  static get is() {
+    return 'blog-page';
+  }
+
+  static get properties() {
+    return {
+      prop1: {
+        type: String,
+        value: 'blog-page'
+      }
+    };
+  }
+
+  static get observers() {
+    return ['_lockScroll(isLoading)'];
+  }
+
+  _lockScroll(isLoading) {
+    if (isLoading) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'visible';
+    }
+  }
+
+}
+
+window.customElements.define(BlogPage.is, BlogPage);</script>
+</dom-module>
