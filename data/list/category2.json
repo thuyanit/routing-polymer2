@@ -1,0 +1,7 @@
+{
+	"posts": [
+		{"title":"I'm post 4", "img": "https://via.placeholder.com/300", "img_alt": "thumbnail"},
+		{"title":"I'm post 5", "img": "https://via.placeholder.com/300", "img_alt": "thumbnail"},
+		{"title":"I'm post 6", "img": "https://via.placeholder.com/300", "img_alt": "thumbnail"}
+	]
+}
